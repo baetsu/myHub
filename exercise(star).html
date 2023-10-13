@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/exercise(star).css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="./js/jquery.bxslider.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min"></script>
+    <script>
+        $(document).ready(function(){
+            $(".slider").bxSlider({
+                auto:true,
+                speed:400,
+                pause:3000,
+                mode:'fade'
+            });
+        });
+
+        $(function() {
+            let notice = $("#notice");
+            let gallery = $("#gallery");
+            $("#t_notice").on("click", function() {
+                notice.show();
+                gallery.hide();
+            });
+            $("#t_gallery").on("click", function() {
+                notice.hide();
+                gallery.show();
+            });
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300&display=swap');
+      </style>
+</head>
+<body>
+    <div id="wrap">
+        <header id="header">
+            <div id="logo">
+                <img src="./images/star_logo.png" alt="로고">
+            </div>
+            <div id="nav">
+                <div id="box">
+                    <ul>
+                        <li>
+                            <a href="#">강원천문대</a>
+                        </li>
+                        <li>
+                            <a href="#">이용안내</a>
+                        </li>
+                        <li>
+                            <a href="#">천문대 예약</a>
+                        </li>
+                        <li>
+                            <a href="#">커뮤니티</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <main id="main">
+            <div id="slide">
+                <div id="slide_contents">
+                    <img src="./images/star.jpg">
+                </div>
+                <div id="text">
+                    <p>밤하늘에 수놓아 진<br>
+                        아름다운 별을 세어보세요</p>
+                </div>
+            </div>
+            <div id="contents">
+                <div id="cont1">
+                    <div id="tab">
+                        <div id="tab-btn">
+                            <a href="#" id="t_notice"><b>공지사항</b></a>
+                            <a href="#" id="t_gallery"><b>갤러리</b></a>
+                        </div>
+                        <div id="tab-contents">
+                            <div id="notice">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <span>공지내용1</span>
+                                            <span>공지날짜1</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span>공지내용2</span>
+                                            <span>공지날짜2</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span>공지내용3</span>
+                                            <span>공지날짜3</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                    <a href="#">
+                                            <span>공지내용4</span>
+                                            <span>공지날짜4</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="gallery">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <img src="./images/darknesses.jpg" alt="갤러리1">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <img src="./images/nightsky.jpg" alt="갤러리2>"
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <img src="./images/starwalk.jpg" alt="갤러리3">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="cont2">
+                </div>
+                <div id="cont3">
+                    <div id="box2">
+                        <h2>September 2023</h2>
+                    </div>
+                    <div id="calendar">
+                        <ul id="weeks">
+                            <li>Sun</li>
+                            <li>Mon</li>
+                            <li>Tue</li>
+                            <li>Wed</li>
+                            <li>Thu</li>
+                            <li>Fri</li>
+                            <li>Sat</li>
+                        </ul>
+                        <ul id="days">
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>9</li>
+                            <li>10</li>
+                            <li>11</li>
+                            <li>12</li>
+                            <li>13</li>
+                            <li>14</li>
+                            <li>15</li>
+                            <li>16</li>
+                            <li>17</li>
+                            <li>18</li>
+                            <li>19</li>
+                            <li>20</li>
+                            <li>21</li>
+                            <li>22</li>
+                            <li>23</li>
+                            <li>24</li>
+                            <li>25</li>
+                            <li>26</li>
+                            <li>27</li>
+                            <li>28</li>
+                            <li>29</li>
+                            <li>30</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer id="footer">
+            <div id="logo">
+                <img src="./images/star_logo.png" alt="로고">
+            </div>
+            <div id="bottom-menu">하단메뉴
+                <ul id="b-inner-menu">
+                    <li>
+                        <a href="#">법적고지</a>
+                    </li>
+                    <li>
+                        <a href="#">개인정보취급방침</a>
+                    </li>
+                    <li>
+                        <a href="#">개인정보처리방침</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="copyright">
+                <label>copyright All rights reserved 강원천문대</label>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
