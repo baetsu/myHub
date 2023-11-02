@@ -92,7 +92,7 @@ public class BoardDAO {
 		return retValue;
 	}
 	
-	public void addArticle(ArticleVO vo) {		// t_board에 새로운 데이터 넣는 함수
+	public int addArticle(ArticleVO vo) {		// t_board에 새로운 데이터 넣는 함수
 		// 위에서 만든 ArticleNO 가져오기
 		int articleNO = getNewArticleNO();
 		try {
@@ -118,33 +118,75 @@ public class BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return articleNO;
 	}
 	
 	public ArticleVO viewArticle(int articleNO) {
 		ArticleVO vo = new ArticleVO();
 		try {
 			con = dataFactory.getConnection();
-			String query = "select * from t_board"
-					+ " where articleNO=? ";
+			String query = "select articleNO, parentNO, title, content, "
+					+ " NVL(imageFileName, 'null') as imageFileName, id, writeDate "
+					+ " from t_board where articleNO=? ";
+			
 			System.out.println(query);
 			pstmt = con.prepareStatement(query);
-			ResultSet rs = pstmt.executeQuery(query);
+			pstmt.setInt(1, articleNO);
+			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				String id = rs.getString("id");
 				Date writeDate = rs.getDate("writeDate");
+				vo.setArticleNO(rs.getInt("articleNO"));
+				vo.setParentNO(rs.getInt("parentNO"));
 				vo.setTitle(title);
 				vo.setContent(content);
+				String imageFileName = rs.getString("imageFileName");
+				if(imageFileName.equals("null")) {
+					imageFileName = null;
+				}
+				vo.setImageFileName(imageFileName);
 				vo.setId(id);
 				vo.setWriteDate(writeDate);
 			}
 			rs.close();
-			stmt.close();
+			pstmt.close();
 			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return vo;
+	}
+	
+	public void modArticle(ArticleVO vo) {
+		try {
+			int articleNO = vo.getArticleNO();
+			String title = vo.getTitle();
+			String content = vo.getContent();
+			String imageFileName = vo.getImageFileName();
+			
+			con = dataFactory.getConnection();
+			String query = "update t_board set title=?, content=?";
+			if(imageFileName != null && imageFileName.length() != 0) {
+				query += ", imageFileName=?";
+			}
+			query += " where articleNO=?";
+			System.out.println(query);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			if(imageFileName != null && imageFileName.length() != 0) {
+				pstmt.setString(3, imageFileName);
+				pstmt.setInt(4, articleNO);
+			} else {
+				pstmt.setInt(3, articleNO);
+			}
+			pstmt.executeUpdate();
+			pstmt.close();
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -16,11 +16,15 @@ public class BoardService {
 		return boardDAO.selectAllArticles();
 	}
 	
-	public void addArticle(ArticleVO vo) {
-		boardDAO.addArticle(vo);
+	public int addArticle(ArticleVO vo) {
+		return boardDAO.addArticle(vo);
 	}
 	
 	public ArticleVO viewArticle(int articleNO) {
 		return boardDAO.viewArticle(articleNO);
+	}
+	
+	public void modArticle(ArticleVO vo) {
+		boardDAO.modArticle(vo);
 	}
 }
