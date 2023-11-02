@@ -24,11 +24,11 @@ import com.joongang.domain.ArticleVO;
 import com.joongang.service.BoardService;
 
 @WebServlet({"/board/listArticles.do", "/board/articleForm.do", "/board/addArticle.do",
-	"/board/viewArticle.do"})
+	"/board/viewArticle.do", "/board/modArticle.do"})
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	//이미지 저장할 path 생성
-	private static final String ARTICLE_IMAGE_REPO = "C:\\board\\article_image";
+	public static final String ARTICLE_IMAGE_REPO = "C:\\board\\article_image";
 	private BoardService boardService;
 	private ArticleVO articleVO;
        
@@ -67,7 +67,7 @@ public class BoardController extends HttpServlet {
 			articleVO.setTitle(title);
 			articleVO.setContent(content);
 			articleVO.setImageFileName(imageFileName);
-			boardService.addArticle(articleVO);
+			articleNO = boardService.addArticle(articleVO);
 			// 첨부파일 있는지 체크
 			if(imageFileName != null && imageFileName.length() != 0) {
 				File srcFile = new File(ARTICLE_IMAGE_REPO + "\\temp\\" + imageFileName);
@@ -87,8 +87,40 @@ public class BoardController extends HttpServlet {
 		} else if(path.equals("/viewArticle.do")) {
 			String articleNO = request.getParameter("articleNO");
 			articleVO = boardService.viewArticle(Integer.parseInt(articleNO));
+			System.out.println("articleVO" + articleVO.getArticleNO());
 			request.setAttribute("article", articleVO);
 			nextPage = "/board/viewArticle.jsp";
+		} else if(path.equals("/modArticle.do")) {
+			Map<String, String> articleMap = new HashMap<String, String>();
+			upload(request, response, articleMap);
+			int articleNO = Integer.parseInt(articleMap.get("articleNO"));
+			articleVO.setArticleNO(articleNO);
+			String title = articleMap.get("title");
+			String content = articleMap.get("content");
+			String imageFileName = articleMap.get("imageFileName");
+			articleVO.setParentNO(0);
+			articleVO.setId("hong");
+			articleVO.setTitle(title);
+			articleVO.setContent(content);
+			articleVO.setImageFileName(imageFileName);
+			boardService.modArticle(articleVO);
+			if(imageFileName != null && imageFileName.length() != 0) {
+				//사진 수정전 파일명
+				String originalFileName = articleMap.get("originalFileName");
+				File srcFile = new File(ARTICLE_IMAGE_REPO + "\\temp\\" + imageFileName);
+				File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + articleNO);
+				destDir.mkdir();
+				FileUtils.moveToDirectory(srcFile, destDir, true);
+				File oldFile = new File(ARTICLE_IMAGE_REPO + "\\" + articleNO + "\\" + originalFileName);
+				oldFile.delete();
+			}
+			PrintWriter pw = response.getWriter();
+			pw.print("<script>"
+					+ "  alert('수정완료');"
+					+ "  location.href='" + request.getContextPath() + "/board/viewArticle.do?articleNO="
+					+ articleNO + "';"
+					+ "</script>");
+			return;
 		}
 		RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 		dispatch.forward(request, response);
